@@ -1,0 +1,102 @@
+\documentclass[11pt]{article} %[12pt]
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{amssymb}
+\usepackage{verbatim}
+\usepackage{pdfpages}
+\usepackage{algpseudocode}
+\usepackage{breqn}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes.multipart}
+\usepackage{textcomp}
+\SetArgSty{textup}
+\usepackage{fancyhdr}
+
+\topmargin -2cm 
+\textheight 24cm
+\textwidth 16.0 cm 
+\oddsidemargin -0.1cm
+
+
+ \pagestyle{fancy}
+ \fancyhf{}
+ \fancyhead[LE,RO]{Blatt 1 \quad \today{}}
+ \fancyhead[RE,LO]{Fabian Späh \quad B5}
+ \fancyfoot[CE,CO]{\leftmark}
+ \fancyfoot[LE,RO]{\thepage}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\V}{\mathcal{V}}
+\newcommand{\ggT}{\text{ggT}}
+\newcommand{\kgV}{\text{kgV}}
+\newcommand{\im}{\text{im} \, }
+\newcommand{\MinPol}{\text{MinPol}}
+\newcommand{\spann}{\text{span}}
+\newcommand{\spa}[1]{\; #1 \;}
+\newcommand{\Sp}{\mathrm{Sp}}
+\newcommand{\set}[1]{\{\, {#1} \,\}}
+\newcommand{\bewbeh}[2]{\begin{enumerate} \item[\textbf{Beh.}]#1 \item[\textbf{Bew.}]#2
+	\end{enumerate}}
+\newcommand{\induct}[2]{\begin{enumerate} \item[\textit{IA}]#1 \item[\textit{IS}]#2
+	\end{enumerate}}
+\newcommand{\qed}{\hfill\ensuremath{\square}}
+\newcommand{\gdw}[2]{\begin{enumerate} \item[$\Rightarrow$]#1 \item[$\Leftarrow$]#2
+	\end{enumerate}}
+\newcommand{\intsto}[1]{\{1, \dots, #1\}}
+\newcommand\Item[1][]{%
+	\ifx\relax#1\relax  \item \else \item[#1] \fi
+	\abovedisplayskip=0pt\abovedisplayshortskip=0pt~\vspace*{-\baselineskip}}
+
+
+
+\begin{document}
+
+If the gradient of $f$ exists, it holds for every $\tau, q$ that
+\[
+  f(\mathbf p + \tau q) = f(\mathbf p) + \tau \nabla f(\mathbf p)^T \cdot q
+  + r(\tau)
+\]
+with $\lim_{\tau \to 0} \frac{r(\tau)}{\tau} = 0$.
+Hence we get for $h$
+\[
+  \begin{array}{rl}
+    & h(\mathbf p + \tau q) = g(f(\mathbf p+ \tau q) =
+    g(f(\mathbf p) + \tau \nabla f(\mathbf p)^T \cdot q + r(\tau)) \\
+    =& g(f(\mathbf p) + \tau (\nabla f(\mathbf p)^T \cdot q + \frac{r(\tau)}{\tau})) \\
+    =& g(f(\mathbf p)) + \tau g'(f(\mathbf p)) \cdot (\nabla f(\mathbf p)^T
+      \cdot q + \frac{r(\tau)}{\tau}) + r'(\tau) \\
+    =& h(\mathbf p) + \tau g'(f(\mathbf p)) \cdot \nabla f(\mathbf p)^T
+      \cdot q + \tau g'(f(\mathbf p)) \frac{r(\tau)}{\tau} + r'(\tau) \ .
+  \end{array}
+\]
+It clearly is
+\[
+  \lim_{\tau \to 0} \frac{\tau g'(f(\mathbf p)) \frac{r(\tau)}{\tau} + r'(\tau)}{\tau}
+  = \lim_{\tau \to 0} g'(f(\mathbf p)) \cdot \frac{r(\tau)}{\tau} + \frac{r'(\tau)}{\tau}
+  = 0
+\]
+and thus
+\[
+  h(\mathbf p + \tau q) = h(\mathbf p) + \tau \nabla h(\mathbf p)^T \cdot q
+  + r''(\tau)
+\]
+with $r''(\tau) = \tau g'(f(\mathbf p)) \frac{r(\tau)}{\tau} + r'(\tau)$
+and $\nabla h(\mathbf p) = g'(f(\mathbf p)) \cdot \nabla f(\mathbf p)$
+which was to show.
+
+
+
+
+\end{document}
