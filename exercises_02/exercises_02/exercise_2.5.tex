@@ -28,7 +28,7 @@
  
  \pagestyle{fancy}
  \fancyhf{}
- \fancyhead[LE,RO]{Exercise 2.5}
+ \fancyhead[LE,RO]{Exercise 2}
  \fancyhead[RE,LO]{Deep Learning for Computer Vision}
  \fancyfoot[CE,CO]{\leftmark}
  \fancyfoot[LE,RO]{\thepage}
@@ -58,7 +58,50 @@
 
 
 \begin{document}
+\section*{Exercise 2.1 c}
+\begin{figure}[htb]
+  \centering
+  \centerline{\includegraphics[width=1.35\textwidth ]{Figure_1_1.png}}
+  \vspace{-5pt}
+    \centering
+\caption{Visualization of the weights vectors and example data images. The darker parts in the visualization of the weights vectors look similar to the real example images.}
+\vspace{-1pt}
+\end{figure}
+\clearpage
 
+\section*{Exercise 2.2}
+\begin{figure}[htb]
+  \centering
+  \centerline{\includegraphics[width=0.6\textwidth ]{Figure_2_4.png}}
+  \vspace{-5pt}
+    \centering
+\caption{(c). Visualization of training accuracies while removing convolutional layers}
+\vspace{-1pt}
+\end{figure}
+
+\begin{figure}[htb]
+  \centering
+  \centerline{\includegraphics[width=0.6\textwidth ]{Figure_2_5.png}}
+  \vspace{-5pt}
+    \centering
+\caption{(d). Visualization of training accuracies with changing the step size. Too small step size will make the gradient descent progress so slowly that within the iterations it cannot reach or come out of a local minimum; Too large step size will make the gradient descent travel between two sides of a (local) minimum and never reach it.}
+\vspace{-1pt}
+\end{figure}
+\clearpage
+
+\section*{Exercise 2.3}
+
+\begin{figure}[htb]
+  \centering
+  \centerline{\includegraphics[width=1\textwidth ]{Figure_3.png}}
+  \vspace{-5pt}
+    \centering
+\caption{Visualization of training MNIST with different strategies.}
+\vspace{-1pt}
+\end{figure}
+\clearpage
+
+\section*{Exercise 2.5}
 \begin{enumerate}[label= (\alph*) \;]
   \item $ \displaystyle
     \E(\bar x) = \E\Big( \frac 1 L \sum_{l=1}^L x_l \Big)
