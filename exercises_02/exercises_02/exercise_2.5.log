@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2017.9.25)  2 DEC 2017 15:36
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2017.9.25)  2 DEC 2017 21:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1385,22 +1385,18 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[3 <./Figure_2_5.png>] <Figure_3.png, id=23, 462.528pt x 346.896pt>
-File: Figure_3.png Graphic file (type png)
+[3 <./Figure_2_5.png>] <hyper_patch_size.png, id=23, 642.4pt x 481.8pt>
+File: hyper_patch_size.png Graphic file (type png)
 
-<use Figure_3.png>
-Package pdftex.def Info: Figure_3.png used on input line 96.
-(pdftex.def)             Requested size: 455.24408pt x 341.44843pt.
+<use hyper_patch_size.png>
+Package pdftex.def Info: hyper_patch_size.png used on input line 94.
+(pdftex.def)             Requested size: 455.24408pt x 341.4408pt.
+ <feature_map.png, id=24, 642.4pt x 481.8pt>
+File: feature_map.png Graphic file (type png)
 
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[4
-
- <./Figure_3.png>]
+<use feature_map.png>
+Package pdftex.def Info: feature_map.png used on input line 103.
+(pdftex.def)             Requested size: 455.24408pt x 341.4408pt.
 LaTeX Font Info:    Try loading font information for OT1+lmr on input line 106.
 
  (/usr/share/texmf/tex/latex/lm/ot1lmr.fd
@@ -1446,30 +1442,61 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[5
+[4
+
+ <./hyper_patch_size.png (PNG copy)>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[5 <./feature_map.png (PNG copy)>]
+<Figure_3.png, id=34, 462.528pt x 346.896pt>
+File: Figure_3.png Graphic file (type png)
+ <use Figure_3.png>
+Package pdftex.def Info: Figure_3.png used on input line 115.
+(pdftex.def)             Requested size: 455.24408pt x 341.44843pt.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[6
+
+ <./Figure_3.png>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[7
 
 ] (./exercise_2.5.aux) ) 
 Here is how much of TeX's memory you used:
- 22701 strings out of 493304
- 408827 string characters out of 6139871
+ 22711 strings out of 493304
+ 409040 string characters out of 6139871
  472875 words of memory out of 5000000
- 25716 multiletter control sequences out of 15000+600000
+ 25724 multiletter control sequences out of 15000+600000
  25952 words of font info for 35 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 56i,11n,55p,10440b,251s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}{/us
-r/share/texmf/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf/fonts/enc/dvips/lm
-/lm-mathit.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/share/t
+ 56i,11n,55p,10440b,259s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathit.enc}{/us
+r/share/texmf/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/share/texmf/fonts/enc/dvip
+s/lm/lm-mathsy.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/t
 exmf/fonts/enc/dvips/lm/lm-ec.enc}</usr/share/texmf/fonts/type1/public/lm/lmbx1
 2.pfb></usr/share/texmf/fonts/type1/public/lm/lmex10.pfb></usr/share/texmf/font
 s/type1/public/lm/lmmi10.pfb></usr/share/texmf/fonts/type1/public/lm/lmmi8.pfb>
 </usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf/fonts/type1
 /public/lm/lmr8.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb></usr/sh
 are/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on exercise_2.5.pdf (5 pages, 526971 bytes).
+Output written on exercise_2.5.pdf (7 pages, 568584 bytes).
 PDF statistics:
- 70 PDF objects out of 1000 (max. 8388607)
- 47 compressed objects within 1 object stream
+ 80 PDF objects out of 1000 (max. 8388607)
+ 53 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 33 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 43 words of extra memory for PDF output out of 10000 (max. 10000000)
 
