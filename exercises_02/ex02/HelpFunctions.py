@@ -4,11 +4,14 @@ import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
 
-def prep(k):
-    (x,y_,tx,ty_) = load_sample_dataset()
+def prep(k, x, y_, tx, ty_, org):
     n = x.shape[0] // k
-    return (np.array_split(normalize(x),n), np.array_split(onehot(y_, 10),n), 0, n,
-            normalize(tx), onehot(ty_, 10))
+    if org == 1:
+        return (np.array_split(normalize(x),n), np.array_split(onehot(y_, 10),n), 0, n,
+                normalize(tx), onehot(ty_, 10))
+    else:
+        return (np.array_split(x, n), np.array_split(y_, n), 0, n,
+                tx, ty_)
 
 def normalize(x):
     x = x - np.mean(x, axis=(1,2))[..., np.newaxis, np.newaxis]
@@ -73,6 +76,35 @@ def training(y_, y_conv, trainMethod, data, x, keep_prob, jp):
             tX = mnist.test.images
             tY_ = mnist.test.labels
 
-        print('test accuracy %g' % accuracy.eval(feed_dict={x: tX, y_: tY_, keep_prob: 1.0}))
+        test_acc = accuracy.eval(feed_dict={x: tX, y_: tY_, keep_prob: 1.0})
+        print('test accuracy %g' % test_acc)
 
-    return train_accuracy
+    return train_accuracy, test_acc
+
+def crossValidation(K, im, lab, y_, y_conv, x, keep_prob):
+
+    trainErr = np.zeros(K)
+    testErr = np.zeros(K)
+
+    for k in range(0, K):
+
+        print('folds %g' % int(k+1))
+        splitX = np.array_split(normalize(im), K)
+        splitY = np.array_split((onehot(lab, 10)), K)
+        testX = splitX[k]
+        testY = splitY[k]
+        del splitX[k]
+        del splitY[k]
+        trainX = np.concatenate(splitX)
+        trainY = np.concatenate(splitY)
+
+        dataCV = prep(50, trainX, trainY, testX, testY, 0)
+        trainMethod = tf.train.AdamOptimizer(1e-4)
+
+        (train_acc, test_acc) = training(y_, y_conv, trainMethod, dataCV, x, keep_prob, 1)
+        testErr[k] = 1-test_acc
+        trainErr[k] = (1 - train_acc).mean()
+
+    avgTrainErr = trainErr.mean()
+    avgTestErr = testErr.mean()
+    return [avgTrainErr, avgTestErr]

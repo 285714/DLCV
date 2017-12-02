@@ -44,7 +44,7 @@ y_conv_jp = tf.matmul(h_fc1_drop_jp, W_fc2_jp) + b_fc2_jp
 
 # training
 trainMethod = tf.train.AdamOptimizer(1e-4)
-train_accuracy = training(y_, y_conv_jp, trainMethod, data, x, keep_prob, 0)
+(train_accuracy, _) = training(y_, y_conv_jp, trainMethod, data, x, keep_prob, 0)
 
 
 # (2) Comparison
@@ -89,7 +89,7 @@ b_fc2 = bias_variable([10])
 y_conv = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
 
 # training
-train_accuracy_digits = training(y_, y_conv, trainMethod, data, x, keep_prob, 0)
+(train_accuracy_digits, _) = training(y_, y_conv, trainMethod, data, x, keep_prob, 0)
 
 
 # train with logistic regression
