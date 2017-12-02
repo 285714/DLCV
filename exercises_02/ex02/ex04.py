@@ -3,6 +3,7 @@ import os
 import tensorflow as tf
 import sys
 import code
+import matplotlib.pyplot as plt
 os.environ['TF_CPP_MIN_LOG_LEVEL']='3'
 os.environ['CUDA_VISIBLE_DEVICES']='0'
 
@@ -50,6 +51,12 @@ def conv2d(x, W):
 def max_pool_2x2(x):
   return tf.nn.max_pool(x, ksize=[1, 2, 2, 1],
                         strides=[1, 2, 2, 1], padding='SAME')
+
+
+def showImg(x):
+  img = x.eval()
+  plt.imshow(img)
+  plt.show()
 
 
 data = prep(50)
@@ -105,8 +112,8 @@ train_step = tf.train.AdamOptimizer(1e-4).minimize(optResp, var_list=[x])
 with tf.Session() as sess:
   sess.run(tf.global_variables_initializer())
   saver.restore(sess, "./model.ckpt")
-  for i in range(100):
+  for i in range(10000):
     train_step.run(feed_dict={keep_prob: 0.5})
 
-
+  showImg(x)
   code.interact(local=locals())
