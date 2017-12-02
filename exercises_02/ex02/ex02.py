@@ -58,24 +58,24 @@ correct_prediction = tf.equal(tf.argmax(y_conv, 1), tf.argmax(y_, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 train_accuracy = np.zeros([201, 1], np.float32)
 
-# with tf.Session() as sess:
-#     sess.run(tf.global_variables_initializer())
-#     for i in range(20001):
-#         # batch = mnist.train.next_batch(50)
-#         ((X,Y_), data) = next_batch(data)
-#         if i % 100 == 0:
-#             train_accuracy[int(i/100)] = accuracy.eval(feed_dict={x: X, y_: Y_, keep_prob: 1.0})
-#             print('step %d, training accuracy %g' % (i, train_accuracy[int(i/100)]))
-#         train_step.run(feed_dict={x: X, y_: Y_, keep_prob: 0.5})
-#
-#     (tX,tY_) = test_data(data)
-#     print('test accuracy %g' % accuracy.eval(feed_dict={x: tX, y_: tY_, keep_prob: 1.0}))
-#     W1 = sess.run(W_conv1)
-#     b1 = sess.run(b_conv1)
-#     W2 = sess.run(W_conv2)
-#     b2 = sess.run(b_conv2)
-#     Wfc = sess.run(W_fc1)
-#     bfc = sess.run(b_fc1)
+with tf.Session() as sess:
+    sess.run(tf.global_variables_initializer())
+    for i in range(20001):
+        # batch = mnist.train.next_batch(50)
+        ((X,Y_), data) = next_batch(data)
+        if i % 100 == 0:
+            train_accuracy[int(i/100)] = accuracy.eval(feed_dict={x: X, y_: Y_, keep_prob: 1.0})
+            print('step %d, training accuracy %g' % (i, train_accuracy[int(i/100)]))
+        train_step.run(feed_dict={x: X, y_: Y_, keep_prob: 0.5})
+
+    (tX,tY_) = test_data(data)
+    print('test accuracy %g' % accuracy.eval(feed_dict={x: tX, y_: tY_, keep_prob: 1.0}))
+    W1 = sess.run(W_conv1)
+    b1 = sess.run(b_conv1)
+    W2 = sess.run(W_conv2)
+    b2 = sess.run(b_conv2)
+    Wfc = sess.run(W_fc1)
+    bfc = sess.run(b_fc1)
 
 
 # (d) remove the convolutional layers
@@ -142,15 +142,15 @@ plt.show()
 # determine the patch size
 # assume that there are 2 convolutional layers, the patch size for both kernels
 # are the same, the number of feature maps stays 32 and 64. And ony the odd number
-# patch size is considered
-
+# patch size is considered。
+'''
 N = 10
 K = 5
 
 avgTrainErrs = np.zeros(int(N/2))
 avgTestErrs = np.zeros(int(N/2))
 
-for n in range(1,N,2):
+for n in range(1, N ,2):
     print('patch size %g' % n)
     # W_conv1 = weight_variable([n, n, 1, 32])
     # W_conv2 = weight_variable([n, n, 32, 64])
@@ -172,37 +172,42 @@ for n in range(1,N,2):
     b_f2 = bias_variable([10])
     y_c = tf.matmul(h_fc1_d, W_f2) + b_f2
 
-    [avgTrainErrs[n], avgTestErrs[n]] = crossValidation(K, im, lab, y_, y_c, x, keep_prob)
+    ind = int((n-1)/2)
+    [avgTrainErrs[ind], avgTestErrs[ind]] = crossValidation(K, im, lab, y_, y_c, x, keep_prob)
 
 
-ns = np.arange(0, int(N/2))
+ns = np.arange(1,N,2)
+plt.xticks(ns)
 plt.plot(ns, avgTrainErrs, label="train error")
 plt.plot(ns, avgTestErrs, 'r--', label="test error")
 plt.legend()
-plt.xlabel("n")
+plt.xlabel("patch size")
 plt.show()
+'''
+
 
 # determine the number of feature maps per layer
-# using the patch size determined above
+# using the patch size determined above (patch size = 3)
 # assume that there are 2 convolutional layers, the patch size for both kernels
 # are the same. The number of feature maps is always a power of 2 and the number
 # of feature maps of the second layer is always the twice of that of the first layer.
 
+'''
+N = 7
+K = 5
 avgTrainErrs1 = np.zeros(N)
 avgTestErrs1 = np.zeros(N)
 
 for n in range(N):
     fm1 = int(2**n)
     fm2 = int(2**(n+1))
-    print('patch size %g' % n)
-    # W_conv1 = weight_variable([n, n, 1, 32])
-    # W_conv2 = weight_variable([n, n, 32, 64])
-    W_1 = weight_variable([n, n, 1, fm1])
+    print(n)
+    W_1 = weight_variable([3, 3, 1, fm1])
     b_1 = bias_variable([fm1])
     h_1 = tf.nn.relu(conv2d(x_image, W_1) + b_1)
     h_p1 = max_pool_2x2(h_1)
-    W_2 = weight_variable([n, n, fm1, fm2])
-    b_2 = bias_variable([64])
+    W_2 = weight_variable([3, 3, fm1, fm2])
+    b_2 = bias_variable([fm2])
     h_2 = tf.nn.relu(conv2d(h_p1, W_2) + b_2)
     h_p2 = max_pool_2x2(h_2)
     W_fc = weight_variable([7 * 7 * fm2, 1024])
@@ -216,11 +221,11 @@ for n in range(N):
     y_c2 = tf.matmul(h_fc1_d, W_f2) + b_f2
 
     [avgTrainErrs1[n], avgTestErrs1[n]] = crossValidation(K, im, lab, y_, y_c2, x, keep_prob)
-    print(n)
 
-ns = np.arange(0,int(N/2)+1)
+ns = np.arange(N)
 plt.plot(ns, avgTrainErrs1, label="train error")
 plt.plot(ns, avgTestErrs1, 'r--', label="test error")
 plt.legend()
-plt.xlabel("n")
+plt.xlabel("number of feature maps")
 plt.show()
+'''

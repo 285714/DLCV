@@ -81,6 +81,9 @@ def training(y_, y_conv, trainMethod, data, x, keep_prob, jp):
 
     return train_accuracy, test_acc
 
+
+
+
 def crossValidation(K, im, lab, y_, y_conv, x, keep_prob):
 
     trainErr = np.zeros(K)
