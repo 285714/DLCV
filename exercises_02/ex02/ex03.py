@@ -1,8 +1,4 @@
 from ex02 import *
-import numpy as np
-import tensorflow as tf
-from tensorflow.examples.tutorials.mnist import input_data
-mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
 
 
 x = tf.placeholder(tf.float32, shape=[None, 784])
@@ -47,33 +43,16 @@ y_conv_jp = tf.matmul(h_fc1_drop_jp, W_fc2_jp) + b_fc2_jp
 
 
 # training
-cross_entropy = tf.reduce_mean(
-    tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y_conv_jp))
-train_step_jp = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
-correct_prediction_jp = tf.equal(tf.argmax(y_conv_jp, 1), tf.argmax(y_, 1))
-accuracy_jp = tf.reduce_mean(tf.cast(correct_prediction_jp, tf.float32))
-train_accuracy = np.zeros([201, 1], np.float32)
-with tf.Session() as sess_jp:
-    sess_jp.run(tf.global_variables_initializer())
-    for i in range(20001):
-        batch = mnist.train.next_batch(50)
-        if i % 100 == 0:
-            train_accuracy[int(i/100)] = accuracy_jp.eval(feed_dict={
-                x: batch[0], y_: batch[1], keep_prob: 1.0})
-            print('step %d, training accuracy %g' % (i, train_accuracy[int(i/100)]))
-        train_step_jp.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
-
-    print('test accuracy %g' % accuracy_jp.eval(feed_dict={
-        x: mnist.test.images, y_: mnist.test.labels, keep_prob: 1.0}))
-
+trainMethod = tf.train.AdamOptimizer(1e-4)
+train_accuracy = training(y_, y_conv_jp, trainMethod, data, x, keep_prob, 0)
 
 
 # (2) Comparison
 
 # test accuracies:
-# with trained weights and biases for jp : 97.27%
-# with all weights and biases trained:     99.24%
-# with logits regression:                  91.87%
+# with trained weights and biases for jp :  96.95%
+# with all weights and biases trained:      99.24%
+# with logits regression:                   91.87%
 
 
 '''
@@ -110,25 +89,7 @@ b_fc2 = bias_variable([10])
 y_conv = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
 
 # training
-cross_entropy = tf.reduce_mean(
-    tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y_conv))
-train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
-correct_prediction = tf.equal(tf.argmax(y_conv, 1), tf.argmax(y_, 1))
-accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-train_accuracy_digits = np.zeros([201, 1], np.float32)
-with tf.Session() as sess:
-  sess.run(tf.global_variables_initializer())
-  for i in range(20001):
-    batch = mnist.train.next_batch(50)
-    if i % 100 == 0:
-      train_accuracy_digits[int(i/100)] = accuracy.eval(feed_dict={
-          x: batch[0], y_: batch[1], keep_prob: 1.0})
-      print('step %d, training accuracy %g' % (i, train_accuracy_digits[int(i/100)]))
-    train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
-
-  print('test accuracy %g' % accuracy.eval(feed_dict={
-      x: mnist.test.images, y_: mnist.test.labels, keep_prob: 1.0}))
-
+train_accuracy_digits = training(y_, y_conv, trainMethod, data, x, keep_prob, 0)
 
 
 # train with logistic regression
@@ -164,5 +125,5 @@ plt.plot(train_accuracy_digits, "r", label="all weights and biases trained")
 plt.plot(train_accuracy_lr, "g", label="with logits regression")
 plt.legend()
 plt.show()
-'''
 
+'''
