@@ -3,9 +3,6 @@ import numpy as np
 import tensorflow as tf
 
 
-
-
-
 def prep(k, x, y_, tx, ty_, org):
     n = x.shape[0] // k
     if org == 1:
@@ -53,7 +50,7 @@ def max_pool_2x2(x):
 
 
 
-def training(y_, y_conv, trainMethod, data, x, keep_prob, iter):
+def training(y_, y_conv, trainMethod, data, x, keep_prob, iter, acc):
     cross_entropy = tf.reduce_mean(
         tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y_conv))
     train_step = trainMethod.minimize(cross_entropy)
@@ -73,8 +70,10 @@ def training(y_, y_conv, trainMethod, data, x, keep_prob, iter):
 
         test_acc = accuracy.eval(feed_dict={x: tX, y_: tY_, keep_prob: 1.0})
         print('test accuracy %g' % test_acc)
-
-    return train_accuracy, test_acc
+    if acc == 1:
+        return train_accuracy, test_acc
+    else:
+        return 1-train_accuracy.mean(), 1-test_acc
 
 
 
