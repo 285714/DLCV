@@ -1,8 +1,10 @@
 from load import *
 import numpy as np
 import tensorflow as tf
-from tensorflow.examples.tutorials.mnist import input_data
-mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
+
+
+
+
 
 def prep(k, x, y_, tx, ty_, org):
     n = x.shape[0] // k
@@ -51,33 +53,23 @@ def max_pool_2x2(x):
 
 
 
-def training(y_, y_conv, trainMethod, data, x, keep_prob, jp):
+def training(y_, y_conv, trainMethod, data, x, keep_prob, iter):
     cross_entropy = tf.reduce_mean(
         tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y_conv))
     train_step = trainMethod.minimize(cross_entropy)
     correct_prediction = tf.equal(tf.argmax(y_conv, 1), tf.argmax(y_, 1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-    train_accuracy = np.zeros([201, 1], np.float32)
+    train_accuracy = np.zeros([int(np.ceil(iter/100)), 1], np.float32)
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
-        for i in range(20001):
-            if jp == 1:
-                ((X, Y_), data) = next_batch(data)
-            else:
-                batch = mnist.train.next_batch(50)
-                X = batch[0]
-                Y_ = batch[1]
-
+        for i in range(iter):
+            ((X, Y_), data) = next_batch(data)
             if i % 100 == 0:
                 train_accuracy[int(i / 100)] = accuracy.eval(feed_dict={x: X, y_: Y_, keep_prob: 1.0})
                 print('step %d, training accuracy %g' % (i, train_accuracy[int(i / 100)]))
-            train_step.run(feed_dict={x: X, y_: Y_, keep_prob: 0.5})
+                train_step.run(feed_dict={x: X, y_: Y_, keep_prob: 0.5})
 
-        if jp == 1:
-            (tX, tY_) = test_data(data)
-        else:
-            tX = mnist.test.images
-            tY_ = mnist.test.labels
+        (tX, tY_) = test_data(data)
 
         test_acc = accuracy.eval(feed_dict={x: tX, y_: tY_, keep_prob: 1.0})
         print('test accuracy %g' % test_acc)
@@ -87,7 +79,7 @@ def training(y_, y_conv, trainMethod, data, x, keep_prob, jp):
 
 
 
-def crossValidation(K, im, lab, y_, y_conv, x, keep_prob):
+def crossValidation(K, im, lab, y_, y_conv, x, keep_prob, iter):
 
     trainErr = np.zeros(K)
     testErr = np.zeros(K)
@@ -105,9 +97,9 @@ def crossValidation(K, im, lab, y_, y_conv, x, keep_prob):
         trainY = np.concatenate(splitY)
 
         dataCV = prep(50, trainX, trainY, testX, testY, 0)
-        trainMethod = tf.train.AdamOptimizer(1e-4)
+        trainMethod = tf.train.AdamOptimizer(1e-3)
 
-        (train_acc, test_acc) = training(y_, y_conv, trainMethod, dataCV, x, keep_prob, 1)
+        (train_acc, test_acc) = training(y_, y_conv, trainMethod, dataCV, x, keep_prob, iter)
         testErr[k] = 1-test_acc
         trainErr[k] = (1 - train_acc).mean()
 
