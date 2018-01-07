@@ -45,14 +45,14 @@ for n in range (alphas.shape[0]):
     W_conv1 = weight_variable([3, 3, 1, 32])
     b_conv1 = bias_variable([32])
     # Leaky ReLU layer 1
-    h_conv1 = tf.maximum((conv2d(x_image, W_conv1) + b_conv1) * a, conv2d(x_image, W_conv1) + b_conv1)
+    h_conv1 = lrelu(a, conv2d(x_image, W_conv1) + b_conv1)
     h_pool1 = max_pool_2x2(h_conv1)
 
     # 2nd convolutional layer
     W_conv2 = weight_variable([3, 3, 32, 64])
     b_conv2 = bias_variable([64])
     # Leaky ReLU layer 2
-    h_conv2 = tf.maximum((conv2d(h_pool1, W_conv2) + b_conv2) * a, conv2d(h_pool1, W_conv2) + b_conv2)
+    h_conv2 = lrelu(a, conv2d(h_pool1, W_conv2) + b_conv2)
     h_pool2 = max_pool_2x2(h_conv2)
 
     # densely connected layer

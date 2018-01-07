@@ -1,13 +1,14 @@
 from load import *
 import numpy as np
 import tensorflow as tf
+import code
 
 
 def prep(k, x, y_, tx, ty_, org):
     n = x.shape[0] // k
     if org == 1:
-        return (np.array_split(normalize(x),n), np.array_split(onehot(y_, 10),n), 0, n,
-                normalize(tx), onehot(ty_, 10))
+        return (np.array_split(x,n), np.array_split(onehot(y_, 10),n), 0, n,
+                tx, onehot(ty_, 10))
     else:
         return (np.array_split(x, n), np.array_split(y_, n), 0, n,
                 tx, ty_)
@@ -47,7 +48,8 @@ def max_pool_2x2(x):
   return tf.nn.max_pool(x, ksize=[1, 2, 2, 1],
                         strides=[1, 2, 2, 1], padding='SAME')
 
-
+def lrelu(a, x):
+    return tf.maximum(x*a, x)
 
 
 def training(y_, y_conv, trainMethod, data, x, keep_prob, iter, acc):
@@ -105,3 +107,25 @@ def crossValidation(K, im, lab, y_, y_conv, x, keep_prob, iter):
     avgTrainErr = trainErr.mean()
     avgTestErr = testErr.mean()
     return [avgTrainErr, avgTestErr]
+
+
+
+def batch(x, phase, scope):
+    with tf.variable_scope(scope):
+        return tf.contrib.layers.batch_norm(x, center=True, scale=True,
+                is_training=phase, scope='bn')
+
+def batchAnonymous(x, phase):
+    return tf.contrib.layers.batch_norm(x, center=True, scale=True,
+            is_training=phase)
+
+def convLayer(shape, alpha, phase, useMaxPool, x):
+    W_conv = weight_variable(shape)
+    b_conv = bias_variable([shape[3]])
+    h_conv = lrelu(alpha, conv2d(x, W_conv) + b_conv)
+    h_norm = batchAnonymous(h_conv, phase)
+    if useMaxPool:
+        return max_pool_2x2(h_norm)
+    else:
+        return h_norm;
+
