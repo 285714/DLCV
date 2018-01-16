@@ -1,0 +1,4 @@
+Since the function
+    k -> ceiling(k / n)
+is non-invertible for every n > 1.
+So, the original shape cannot be recomputed.
